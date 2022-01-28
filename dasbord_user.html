@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+		<title>Dashboard - Brand</title>
+		<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/styles.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+	</head>
+	<body id="page-top">
+		<nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
+			<div class="container">
+				<a class="navbar-brand d-flex justify-content-center align-items-centerm-0" href="index.html#list-anggota">
+				<div class="sidebar-brand-icon rotate-n-15">
+					<i class="fas fa-robot" style="font-size: 40px;"></i>
+				</div>
+				<div class="sidebar-brand-text mx-3">
+					<span>Webd2021K01</span>
+				</div>
+				</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item">
+							<a class="nav-link active" href="dasbord_user.html">
+								<i class="fas fa-home" style="font-size: 30px;"></i>
+								<span>Home</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="profile.html" style="font-size: 17.6px;">
+								<i class="fa fa-user" style="font-size: 30px;"></i>
+								<span>Profile</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="index.html" id="logOut">
+								<i class="fa fa-power-off" style="font-size: 30px;"></i>
+								<span>Logout</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<header class="masthead" style="background-image:url('assets/img/home-bg.jpg');">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-lg-8 mx-auto position-relative">
+						<div class="site-heading">
+							<h1 style="color: rgba(255,255,255,0);">Blog</h1><span class="subheading" style="color: rgba(255,255,255,0);">WEBD2021K01</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div id="wrapper">
+			<div class="d-flex flex-column" id="content-wrapper">
+				<div id="content">
+					<div class="container-fluid">
+						<div class="d-sm-flex justify-content-between align-items-center mb-4">
+							<h3 class="text-dark mb-0">Dashboard</h3>
+						</div>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" id="kategori"> Kategori</button>
+							<div class="dropdown-menu">
+								<a href="dasbord_user.html?kategori=tekno" class="dropdown-item">Teknologi</a>
+								<a href="dasbord_user.html?kategori=olah" class="dropdown-item">Olahraga</a>
+								<a href="dasbord_user.html?kategori=eko" class="dropdown-item">Ekonomi</a>
+								<a href="dasbord_user.html?kategori=semua" class="dropdown-item">Semua</a>
+							</div>
+						</div>
+					</div>
+					<section class="article-list">
+						<div class="container" style="width: 966px;">
+							<div class="row articles" id="list-article"></div>
+						</div>
+					</section>
+					<section class="chart border-1">
+						<canvas id="mychart"></canvas>
+						<canvas id="mychart1"></canvas>
+					</section>
+				</div>
+				<footer class="bg-white sticky-footer">
+					<div class="container my-auto">
+						<div class="text-center my-auto copyright">
+							<span>Copyright © WEBD2021K01 2021</span>
+						</div>
+					</div>
+				</footer>
+			</div>
+			<a class="border rounded d-inline scroll-to-top" href="add_news.html" style="color:  blue;background-color: blue;padding: 11px;margin: 24px;height: 67px;width: 77px;font-size: 32px;">
+				<i class="fas fa-plus" style="color: white;"></i>
+			</a>
+		</div>
+	<!-- The Modal -->
+	<div class="modal" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Edit Data</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form>
+						<input type="text" class="form-control form-control-user" id="id-news" disabled>
+						<div class="row mb-3">
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="ftitle">title</label>
+								<input name="ftitle" type="text" class="form-control form-control-user" id="title" required>
+							</div>
+							<div class="col-sm-6">
+								<label for="fauthor">author</label>
+								<input name="fauthor" type="text" class="form-control form-control-user" id="author" required>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="flink">link berita</label>
+								<input name="flink" type="text" class="form-control form-control-user" id="link-news" required>
+							</div>
+							<div class="col-sm-6">
+								<label for="fimage">link gambar</label>
+								<input name="fimage" type="text" class="form-control form-control-user" id="link-image" required>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label >kategori</label>
+								<select id="kategori-news">
+									<option value="teknologi">Teknologi</option>
+									<option value="ekonomi">Ekonomi</option>
+									<option value="olahraga">Olahraga</option>
+								</select>
+							</div>
+						</div>
+						<label for="fketerangan">keterangan</label>
+						<textarea id="keterangan" cols="30" rows="10" name="fketerangan" class="ckeditor"></textarea>
+					</form>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="save" data-bs-dismiss="modal">Save Changes</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- The Modal -->
+	<div class="modal" id="myModal1">
+		<div class="modal-dialog">
+		<div class="modal-content">
+	
+			<!-- Modal Header -->
+			<div class="modal-header">
+			<h4 class="modal-title">Hapus News</h4>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+			</div>
+	
+			<!-- Modal body -->
+			<div class="modal-body">
+				<input type="text" class="form-control form-control-user" id="hapus-news" disabled>
+				<p>Apakah ingin menghapus berita dengan id diatas?, jika ya click hapus</p>
+			</div>
+	
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="btnHapus" data-bs-dismiss="modal">Hapus</button>
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cencel</button>
+			</div>
+	
+		</div>
+		</div>
+	</div>
+	<div class="modal" id="myModal2">
+		<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- Modal Header -->
+			<div class="modal-header">
+			<h4 class="modal-title">Export News</h4>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<input type="text" class="form-control form-control-user" id="id-pdf" disabled>
+				<p>Apakah ingin mengexport berita dengan id diatas?, jika ya click export</p>
+			</div>
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<div id="editor"></div>
+				<button type="button" class="btn btn-primary" id="btnpdf" data-bs-dismiss="modal">export</button>
+				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cencel</button>
+			</div>
+		</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/script.min1.js"></script>
+	<script src="assets/js/modal.js"></script>
+	<script src="assets/js/html2pdf.js" type="module"></script>
+	<script type="module">
+		// Import the functions you need from the SDKs you need
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
+		import { getDatabase, ref, set, child, get, onValue, update } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
+		import { getStorage, ref as sRef, uploadBytesResumable , getDownloadURL} from "https://www.gstatic.com/firebasejs/9.2.0/firebase-storage.js";
+		// TODO: Add SDKs for Firebase products that you want to use
+		// https://firebase.google.com/docs/web/setup#available-libraries
+		// Your web app's Firebase configuration
+		const firebaseConfig = {
+		  apiKey: "AIzaSyCKOJSoBQ-D-arDk5jm3mHmdtmAByjUZq0",
+		  authDomain: "user-k01.firebaseapp.com",
+		  projectId: "user-k01",
+		  storageBucket: "user-k01.appspot.com",
+		  messagingSenderId: "804070956660",
+		  appId: "1:804070956660:web:d6417df67c413b98033b21"
+		};
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const dbRef = ref(getDatabase());
+		const db = getDatabase();
+		const auth = getAuth();
+		const storage = getStorage();
+		const articleRef = ref(db, 'article/');
+		//initial param di windows
+		var urlParams = new URLSearchParams(window.location.search);
+		const kategori = urlParams.get("kategori");
+		const terbaru = urlParams.get("terbaru");
+		//initial id untuk menampilkan kedalam html
+		const listArticle = document.querySelector('#list-article');
+		//template untuk mengambil data secara live
+		let id = 0;
+		const getList = ()=>{ 
+			let listdata = [];
+			let keys = [];
+			let times = [];
+			onValue(articleRef, (snapshot)=>{
+				const list = snapshot.val();
+				var tekno=0;
+				var olah=0;
+				var eko=0;
+				Object.keys(list).forEach( key =>{
+					listdata.push(list[key]);
+					keys.push(key);
+					times.push(list[key].time);
+					if(list[key].kategori === "teknologi"){
+						tekno++;
+					}else if(list[key].kategori === "olahraga"){
+						olah++;
+					}else{
+						eko++;
+					}
+				});
+				times.sort();
+				for(var i = (listdata.length-1); i>=0;i--){
+					for(var j = 0; j<=(listdata.length-1);j++){
+						if(times[i] === listdata[j].time){
+							showList(listdata[j],keys[j])
+						}
+					}
+				}
+				if(kategori === "semua" || kategori === null){
+					var ctx = document.getElementById("mychart").getContext('2d');
+					var myChart = new Chart(ctx, {
+						type: 'doughnut',
+						data:{
+							labels: ["teknologi", "olahraga", "ekonomi"],
+							datasets: [{
+								label: '# of Votes',
+								data : [tekno,olah,eko],
+								backgroundColor:[
+									'rgba(255,99,132,0.5)',
+									'rgba(54,162,235,0.5)',
+									'rgba(255,206,86,0.5)'
+								],
+								borderColor:[
+									'rgba(255,99,132,1)',
+									'rgba(54,162,235,1)',
+									'rgba(255,206,86,1)'
+								],
+								bordeWidth: 1
+							}]
+						},
+						options:{
+							scales: {
+								yAxes: [{
+									ticks: {
+										beginAtZero:true
+									}
+								}]
+							}
+						}
+					});
+					var ctx1 = document.getElementById("mychart1").getContext('2d');
+					var myChart = new Chart(ctx1, {
+						type: 'bar',
+						data:{
+							labels: ["teknologi", "olahraga", "ekonomi"],
+							datasets: [{
+								label: '# of Votes',
+								data : [tekno,olah,eko],
+								backgroundColor:[
+									'rgba(255,99,132,0.5)',
+									'rgba(54,162,235,0.5)',
+									'rgba(255,206,86,0.5)'
+								],
+								borderColor:[
+									'rgba(255,99,132,1)',
+									'rgba(54,162,235,1)',
+									'rgba(255,206,86,1)'
+								],
+								bordeWidth: 1
+							}]
+						},
+						options:{
+							scales: {
+								yAxes: [{
+									ticks: {
+										beginAtZero:true
+									}
+								}]
+							}
+						}
+					});
+				}
+			});
+		}
+		//function untuk menetukan kondisi
+		const showList = (art,key) =>{
+			if(terbaru === null){
+				if(kategori === "tekno" && art.kategori === "teknologi"){
+					showData(art,key);
+				}else if(kategori === "eko" && art.kategori === "ekonomi"){
+					showData(art,key);
+				}else if(kategori === "olah" && art.kategori === "olahraga"){
+					showData(art,key);
+				}else if(kategori === "semua" || kategori === null){
+					showData(art,key);
+				}
+			}else{
+				
+			}
+		}
+		
+		//func untuk menampilkan kedalam html
+		const showData = (art,key) =>{
+			const date = new Date(art.time);
+			let string = date.getHours()+":"+date.getMinutes()+","+date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+			listArticle.innerHTML += `
+				<div class="col-sm-6 col-md-4 item">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" onclick="tampilEdit('${key}','${art.title}','${art.author}','${art.link}','${art.image}','${art.kategori}','${art.keterangan}')">
+						Edit
+					</button>
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal1" onclick="tampilHapus('${key}')">
+						Hapus
+					</button>
+					<div id="isi">
+						<img class="img-fluid" src="${art.image}">
+						<h3 class="name">${art.title}<br>${string}</h3>
+						<p>${art.author}</p>
+						<p class="description">${art.keterangan}</p>
+						<a class="action" href="${art.link}">
+							<i class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+					<button data-bs-toggle="modal" data-bs-target="#myModal2" onclick="tampilExport('${key}')">
+						pdf
+					</button>
+					<a href="table.html" class="link link-info">table</a>
+				</div>
+				`;
+		}
+		//initialisasi button ketika diklik akan masuk kedalam sebuah fungsi
+		document.getElementById("save").addEventListener('click', saveData);
+		//fungsi ketika mengeklik save di modal
+		function saveData(e){
+			e.preventDefault();
+			//inisialisasi value dari form
+			const id_news = document.getElementById("id-news").value;
+			const title_news = document.getElementById("title").value;
+			const author_news = document.getElementById("author").value;
+			const link_news =document.getElementById("link-news").value;
+			const link_image = document.getElementById("link-image").value;
+			const kategori_news = document.getElementById("kategori-news").value;
+			var keterangan_news = CKEDITOR.instances.keterangan.getData();
+			const rex = /(<([^>]+)>)/ig;
+			keterangan_news = keterangan_news.replace(rex, '');
+			keterangan_news = keterangan_news.replace('\n','');
+			console.log(kategori_news);
+			const time = new Date().getTime();
+			//template untuk membaca data base
+			writeNews(id_news,title_news,author_news,link_news,link_image,kategori_news,keterangan_news,time);
+			window.location.reload();
+		}
+		document.getElementById("btnHapus").addEventListener('click', hapusData);
+		function hapusData(e){
+			e.preventDefault();
+			const id_news = document.getElementById("hapus-news").value;
+			writeNews(id_news,null,null,null,null,null,null,null);
+			window.location.reload();
+		}
+		//fungsi menulis kedalam database firebase
+		function writeNews(id_news,title,author,linker,image,kategori,keterangan,time){
+			//template menuliskan inputan user kedalam database
+			onValue(articleRef, (snapshot)=>{		
+				const list = snapshot.val();
+				Object.keys(list).forEach( key =>{
+					const listdata = list[key];
+					if(key === id_news){
+						update(ref(db, 'article/' + key), {
+							time : time,
+							title : title,
+							author : author,
+							link : linker,
+							image : image,
+							kategori : kategori,
+							keterangan : keterangan
+						});
+					}
+				});
+			});
+		}
+		// mengexport ke pdf
+		document.getElementById("btnpdf").addEventListener('click',(e)=>{
+			e.preventDefault();
+			var id = document.getElementById("id-pdf").value;
+			var options = {
+				jsPDF: {
+					format: 'a4'
+				},
+				margin: 1,
+				image: { type: 'jpg', quality: 1 },
+				filename: 'webD-k01.pdf'
+			};
+			onValue(articleRef, (snapshot) => {
+				const list = snapshot.val();
+				Object.keys(list).forEach(key => {
+					const listdata = list[key];
+					var date = new Date(listdata.time);
+					var string = date.getHours()+":"+date.getMinutes()+","+date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
+					if (listdata.id === id) {
+						const element = `<h3>${listdata.title}-${string}</h3><p>${listdata.author}</p><p>${listdata.keterangan}</p><a href="${listdata.link}">link</a>`;
+						html2pdf().set(options).from(element).save();
+					}
+				});
+			});
+		});
+		//insialisasi ketika halaman sedang me-load data dari data base
+		document.addEventListener('DOMContentLoaded', ()=>{
+            onAuthStateChanged(auth, (user) =>{
+                if(user){
+                    getList();
+                } else if(!user){
+					window.location = 'index.html';
+				}
+            });
+			document.getElementById("logOut").addEventListener('click', (e)=>{
+				e.preventDefault();
+				auth.signOut();
+			});
+        });
+		
+	</script>
+</body>
+</html>

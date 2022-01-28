@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>table HTML</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+	<link rel="stylesheet" href="assets/css/styles.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="assets/js/jquery.table2excel.js"></script>
+</head>
+<body>
+    <table id="table" class="table table-info">
+        <thead>
+            <tr>
+                <td>nomor</td>
+                <td>tittle</td>
+                <td>author</td>
+                <td>link image</td>
+                <td>date</td>
+                <td>keterangan</td>
+                <td>kategori</td>
+            </tr>
+        </thead>
+        <tbody id="isi"></tbody>
+    </table>
+    <button id="export">export to excel</button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/script.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
+        import { getDatabase, ref, set, child, get, onValue } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
+        const firebaseConfig = {
+		  apiKey: "AIzaSyCKOJSoBQ-D-arDk5jm3mHmdtmAByjUZq0",
+		  authDomain: "user-k01.firebaseapp.com",
+		  projectId: "user-k01",
+		  storageBucket: "user-k01.appspot.com",
+		  messagingSenderId: "804070956660",
+		  appId: "1:804070956660:web:d6417df67c413b98033b21"
+		};
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const dbRef = ref(getDatabase());
+		const db = getDatabase();
+		const auth = getAuth();
+        var table = document.getElementById("isi");
+        function getTable(){
+            const articleRef = ref(db, 'article/');
+            onValue(articleRef,(snapshot)=>{
+                const list = snapshot.val();
+                var i=1;
+                Object.keys(list).forEach(key =>{
+                    var listdata = list[key];
+                    writerTable(listdata,i);
+                    i++;
+                });
+            });
+        }
+        function writerTable(art,i){
+            var date = new Date(art.time);
+            var string = date.getHours()+":"+date.getMinutes()+","+date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
+            table.innerHTML += `<tr>
+                <td>${i}</td>
+                <td>${art.title}</td>
+                <td>${art.author}</td>
+                <td>${art.image}</td>
+                <td>${string}</td>
+                <td>${art.keterangan}</td>
+                <td>${art.kategori}</td>
+                </tr>`;
+        }
+        document.getElementById("export").addEventListener('click',(e)=>{
+            e.preventDefault();
+            $("#table").table2excel({
+                exclude:".noExl",
+                name: "Document Name",
+                filename: "file",
+                fileext: ".xls",
+                exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+            });
+        });
+        document.addEventListener('DOMContentLoaded',getTable);
+    </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Add a News - WebD2021K01</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+</head>
+<body class="bg-gradient-primary">
+	<div class="container">
+            <div class="card shadow-lg o-hidden border-0 my-5">
+                <div class="card-body p-0">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h4 class="text-dark mb-4">Add a News!</h4>
+                        </div>
+                        <form class="user">
+                            <div class="row mb-3">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input class="form-control form-control-user" type="text" id="title" placeholder="Title of News" name="title_news" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control form-control-user" type="text" id="author" placeholder="Author of News" name="author_news" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <label for="kategori">Kategori</label>
+                                    <select name="kategori" id="kategori" required>
+                                        <option value="teknologi">Teknologi</option>
+                                        <option value="ekonomi">Ekonomi</option>
+                                        <option value="olahraga">Olahraga</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <progress id="uploadProgress" value="0" max="100">0%</progress>
+                                    <input class="form-control form-control-user" type="file" id="image" placeholder="Link Image" name="image" required>
+                                </div>
+                                
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control form-control-user" id="link" placeholder="Link of News" name="link_news" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea name="keterangan" id="keterangan" cols="80" rows="10" placeholder="short description" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit" id="submit">Publish</button><hr>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+	<script type="module">
+		// Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
+        import { getDatabase, ref, set, child, get, update, onValue } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-database.js";
+        import { getStorage, ref as sRef, uploadBytesResumable , getDownloadURL} from "https://www.gstatic.com/firebasejs/9.2.0/firebase-storage.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+            // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKOJSoBQ-D-arDk5jm3mHmdtmAByjUZq0",
+            authDomain: "user-k01.firebaseapp.com",
+            projectId: "user-k01",
+            storageBucket: "user-k01.appspot.com",
+            messagingSenderId: "804070956660",
+            appId: "1:804070956660:web:d6417df67c413b98033b21"
+        };
+        
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase();
+            const auth = getAuth();
+            const storage = getStorage();
+            CKEDITOR.replace('keterangan');
+            // inisialisasi inputan user
+            const title = document.getElementById("title");
+            const author = document.getElementById("author");
+            const kategori = document.getElementById("kategori");
+            let id = "";
+            document.getElementById("image").addEventListener('change',parseImg)
+            function parseImg(e){
+                const title1 = title.value;
+                const author1 = author.value;
+                const kategori1 = kategori.value;
+                const id_title = title1[0]+4+title1[1]+1+title1[2];
+                const id_kategori = kategori1[0]+kategori1[1]+kategori1[2];
+                id = id_title+id_kategori+author1[0]+author1[1]+author1[2];
+                const render = new FileReader();
+                var file = e.target.files[0];
+                const meta = {contentType : file.type};
+                const storageRef = sRef(storage,"UTS-Pemweb/img/"+ file.name);
+                let UploadTask = uploadBytesResumable(storageRef,file,meta);
+                UploadTask.on('state-changed', (snapshot)=>{
+                    var progres = (snapshot.bytesTransferred / snapshot.totalBytes)*100;
+                    document.getElementById("uploadProgress").innerHTML = progres+"%";
+                },
+                (error) =>{
+                    alert("eror");
+                },
+                ()=>{
+                    getDownloadURL(UploadTask.snapshot.ref).then((URL)=>{
+                        set(ref(db, 'article/' +id),{
+                            image : URL,
+                            title : title1,
+                            author : author1,
+                            kategori : kategori1
+                        });
+                    });
+                });
+            }
+            document.getElementById("submit").addEventListener('click', parseNews);
+            function parseNews(e){
+                e.preventDefault();
+                let keterangan = CKEDITOR.instances.keterangan.getData();
+                var rex = /(<([^>]+)>)/ig;
+                keterangan = keterangan.replace(rex, '');
+                keterangan = keterangan.replace('\n','');
+                keterangan = keterangan.replace('\n\n','');
+                const link = document.getElementById("link").value;
+                var tanggal = new Date();
+                var time = tanggal.getTime();
+                update(ref(db, 'article/' + id), {
+                    time : time,
+                    keterangan : keterangan,
+                    link : link
+                });
+                window.location ='dasbord_user.html';
+            }
+            document.addEventListener('DOMContentLoaded', ()=>{
+                onAuthStateChanged(auth, (user) =>{
+                    if(!user){
+                        window.location.replace("index.html");
+                    }
+                });
+            });
+	</script>
+</body>
+</html>
